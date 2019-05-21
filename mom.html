@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+	<head>
+    <!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+		<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+		<script>
+			var data = JSON.parse('{"items":[{"id":1,"name":"蒜粗","unit":""},{"id":2,"name":"蒜泥","unit":""},{"id":3,"name":"蔥","unit":"把"},{"id":4,"name":"薑絲","unit":"包"},{"id":5,"name":"老薑","unit":""},{"id":6,"name":"芹菜","unit":""},{"id":7,"name":"紅辣椒(大)","unit":""},{"id":8,"name":"糯米椒","unit":"斤"},{"id":9,"name":"青椒","unit":"斤"},{"id":10,"name":"茄子","unit":"件"},{"id":11,"name":"韭菜花","unit":""},{"id":12,"name":"空心菜","unit":""},{"id":13,"name":"A菜","unit":""},{"id":14,"name":"大白菜","unit":"件"},{"id":15,"name":"龍鬚菜","unit":""},{"id":16,"name":"袖珍菇","unit":""},{"id":17,"name":"貢丸","unit":""},{"id":18,"name":"豆干","unit":"斤"}]}');
+			
+			
+			function init(){
+				createRowOfTable();
+			}
+			
+			function createInput(obj){
+				return "<div class='form-group row'><div class='col-sm-12'><input type='number' class='form-control formInputs' id='"+obj.id+"' placeholder='請輸入數量'><input type='hidden' value='"+obj.name+"' id='name"+obj.id+"'><input type='hidden' value='"+obj.unit+"' id='unit"+obj.id+"'> </div></div>";
+			}
+			
+			function createRowOfTable(){
+				$.each(	data.items , function(index,item){
+					$("#tbody").append("<tr> <td>"+item.name+"</td> <td>"+createInput(item)+"</td> <td>"+item.unit+"</td> </tr>");
+				});
+			}
+			$(document).ready(function(){
+				init();
+				
+				$("#doCopy").on('click',function(){
+					$(".formInputs").each(function() {
+					  var message = $("#copyInput").val();
+					  var id = $( this ).attr( "id" );
+					  var number = $( this ).val();
+					  if(number === undefined || number == 0) return;
+					  var name = $( "#name"+id ).val();
+					  var unit = $( "#unit"+id ).val();
+					  message = message + name + "：" + number + " "+unit +"%0D%0A";
+					  $("#copyInput").val(message);
+					});
+					
+					var url = "https://line.me/R/msg/text/?"+$("#copyInput").val();
+					window.open(url,'_blank');
+				});
+			});
+			
+		</script>
+		
+		<style>
+			body{
+				margin:10px;
+			}
+		</style>
+	</head>
+	
+	<body class="bg-light">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<form>
+						<table class="table"> 
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">品名</th>
+									<th scope="col">數量</th>
+									<th scope="col">單位</th>
+								</tr>
+							</thead>
+							<tbody id="tbody">
+								
+							</tbody>
+						</table>
+						<input type="hidden" id="copyInput">
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<form method="get" action="" id="sendLineForm">
+					
+						
+					</form>
+					<button id="doCopy">傳送到LINE</button>
+				</div>
+			</div>
+			
+		</div>
+	</body>
+</html>
