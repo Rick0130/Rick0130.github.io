@@ -28,6 +28,7 @@
 				init();
 				
 				$("#doCopy").on('click',function(){
+					$("#copyInput").val("");
 					$(".formInputs").each(function() {
 					  var message = $("#copyInput").val();
 					  var id = $( this ).attr( "id" );
