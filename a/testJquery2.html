@@ -14,9 +14,15 @@
 
 
                 $(".tdClass").on("click",function(){
-                    $(this).css("background-color","red");
+                    if( $(this).css("background-color") == "rgb(255, 0, 0)" ){
+                        $(this).css("background-color","");
+                    }else{
+                        $(this).css("background-color","red");
+                    }
+                    
                 });
                 $("#clearColor").on("click",function(){
+                 
                     $(".tdClass").css("background-color","");
                 });
             })
@@ -28,7 +34,7 @@
                      
                     for(x=1;x<=7;x++){
                         // sTd +="<td id='tb"+i+x+"'></td>";
-                        sTd +="<td class='tdClass' >"+i+x+"</td>";
+                        sTd +="<td class='tdClass' align='center'>"+i+x+"</td>";
 
                     }
 
@@ -47,8 +53,8 @@
         </script>
     </head>
     <body  >
-        <div  >
-            <table class="table table-bordered" >
+        <div style="height: 90vh">
+            <table class="table table-bordered" style="height: 90vh">
 
             </table>
             <button id="clearColor" >clear</button>
