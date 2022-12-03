@@ -43,7 +43,7 @@
 			}
 			
 			function createInput(obj){
-				return "<div class='form-group row'><div class='col-sm-12'><input type='number' class='form-control formInputs' id='"+obj.id+"' placeholder='數量'><input type='hidden' value='"+obj.name+"' id='name"+obj.id+"'><input type='hidden' value='"+obj.unit+"' id='unit"+obj.id+"'> </div></div>";
+				return "<div class='form-group row'><div class='col-sm-12' style='display: flex;align-items: center;'><input class='form-check-input' style='scale:1.7' type='checkbox' ><input type='number' class='form-control formInputs' data-mark='false' id='"+obj.id+"' placeholder='數量'><input type='hidden' value='"+obj.name+"' id='name"+obj.id+"'><input type='hidden' value='"+obj.unit+"' id='unit"+obj.id+"'> </div></div>";
 			}
 			
 			function createRowOfTable(){
@@ -59,6 +59,16 @@
 			}
 			$(document).ready(function(){
 				init();
+
+				$(".form-check-input").change(function() {
+					if(this.checked) {
+						var $element = $(this).parent().find('.formInputs');
+						$element.attr('data-mark','true');
+					}else{
+						var $element = $(this).parent().find('.formInputs');
+						$element.attr('data-mark','false');
+					}
+				});
 				
 				$("#doCopy").on('click',function(){
 					$("#copyInput").val("本次訂購如下:%0D%0A");
@@ -69,7 +79,12 @@
 					  if(number === undefined || number == 0) return;
 					  var name = $( "#name"+id ).val();
 					  var unit = $( "#unit"+id ).val();
-					  message = message + name + "：" + number + " "+unit +"%0D%0A";
+					  if( $( this ).data('mark') ){
+						message = message + name + "：" + number + " ("+unit +")%0D%0A";
+					  }else{
+						message = message + name + "：" + number + " "+unit +"%0D%0A";
+					  }
+					  
 					  $("#copyInput").val(message);
 					});
 					
